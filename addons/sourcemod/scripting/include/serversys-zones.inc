@@ -7,6 +7,20 @@
 #define MAX_ZONE_TYPES 30
 #define MAX_ZONES 64
 
+enum Zones_SetupState {
+	SETUP_NONE = 0,
+	SETUP_MAIN = 1,
+	SETUP_ADD_SELECT_TYPE = 2,
+	SETUP_ADD_SELECT_METHOD = 3,
+	SETUP_ADD_LISTENING_TRIGGER = 4,
+	SETUP_ADD_CREATING_ZONE = 5,
+	SETUP_ADD_LISTENING_NAME = 6,
+	SETUP_ADD_LISTENING_VISIBLE = 7,
+	SETUP_ADD_LISTENING_WIDTH = 8,
+	SETUP_DIS_SELECT_ZONE = 9,
+	SETUP_DIS_SELECT_ACTION = 10
+}
+
 /**
 * Register your zone type for use in the plugin.
 *
@@ -16,6 +30,18 @@
 * 						wanted to create a wall with a zone, you could use prop_dynamic.
 */
 native void Sys_Zones_RegisterZoneType(const char[] type, const char[] entity = "trigger_multiple");
+
+/**
+* Check if zones are currently in a loading state or totally useable.
+*/
+native bool Sys_Zones_Loading();
+
+/**
+* Get the setup state of a client index.
+*
+* @param client         The client index to retrieve for.
+*/
+native Zones_SetupState Sys_Zones_GetSetupState(int client);
 
 /**
 * Called when a zone entity is created. For CS:GO, this is on round_start.
@@ -69,5 +95,6 @@ public SharedPlugin __pl_serversys_zones =
 #if defined REQUIRE_PLUGIN
 public __pl_serversys_zones_SetNTVOptional(){
     MarkNativeAsOptional("Sys_Zones_RegisterZoneType");
+    MarkNativeAsOptional("Sys_Zones_GetSetupState");
 }
 #endif

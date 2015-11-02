@@ -1,0 +1,101 @@
+Phrases
+{
+	"There was an error in setup"
+	{
+		"en"		"There was an error in zone setup!"
+	}
+
+	"Zones are being live reloaded"
+	{
+		"en"		"All map zones are being live reloaded!"
+	}
+
+	"You may cancel at any time"
+	{
+		"en"		"To delete your progress at any time during zone creation, type 'cancel' in chat."
+	}
+
+	"Zones Menu Title"
+	{
+		"en"		"Zones Management Menu"
+	}
+
+	"Add a zone menu option"
+	{
+		"en"		"Add a zone"
+	}
+
+	"Display a zone menu option"
+	{
+		"en"		"Display a zone"
+	}
+
+	"Add a zone menu title"
+	{
+		"en"		"Select type to add"
+	}
+
+	"Display a zone menu title"
+	{
+		"en"		"Select type to display"
+	}
+
+	"Zone type"
+	{
+		"en"		"Type: "
+	}
+
+	"Zone hard ID"
+	{
+		"en"		"Hard ID"
+	}
+
+	"Zone soft ID"
+	{
+		"en"		"Soft ID"
+	}
+
+	"Select zone adding method"
+	{
+		"en"		"Selecting adding method"
+	}
+
+	"Pre-existing map zone"
+	{
+		"en"		"Pre-existing map zone"
+	}
+
+	"Create new custom zone"
+	{
+		"en"		"Create new custom zone"
+	}
+
+	"Enter zone targetname"
+	{
+		"en"		"The next message you send will determine the zone's targetname value to search for."
+	}
+
+	"No targetname match found"
+	{
+		"#format"	"{1:s}"
+		"en"		"No matching trigger for targetname '{1}' found!"
+	}
+
+	"Pick zone visibility"
+	{
+		"en"		"The next message you send will determine the zone's visibility? Type 'yes' or 'no' to choose."
+	}
+
+	"Enter zone width"
+	{
+		"en"		"The next message you send will determine the zone's width. We recommend between 1.0 and 4.0."
+	}
+
+
+	"Give the zone a name"
+	{
+		"en"		"The next message you send will be used as the zone's name. For no name, use 'no' or 'none'."
+	}
+
+
+}
