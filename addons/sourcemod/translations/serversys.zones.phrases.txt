@@ -2,17 +2,17 @@ Phrases
 {
 	"There was an error in setup"
 	{
-		"en"		"There was an error in zone setup!"
+		"en"		"> {DARKRED}There was an error in zone setup!"
 	}
 
 	"Zones are being live reloaded"
 	{
-		"en"		"All map zones are being live reloaded!"
+		"en"		"> {DARKRED}All map zones are being live reloaded!"
 	}
 
 	"You may cancel at any time"
 	{
-		"en"		"To delete your progress at any time during zone creation, type 'cancel' in chat."
+		"en"		"> {DARKRED}To delete your progress at any time during zone creation, type {RED}'cancel'{DARKRED} in chat."
 	}
 
 	"Zones Menu Title"
@@ -72,30 +72,29 @@ Phrases
 
 	"Enter zone targetname"
 	{
-		"en"		"The next message you send will determine the zone's targetname value to search for."
+		"en"		"> {DARKRED}The next message you send will determine the zone's {RED}targetname{DARKRED} value to search for."
 	}
 
 	"No targetname match found"
 	{
 		"#format"	"{1:s}"
-		"en"		"No matching trigger for targetname '{1}' found!"
+		"en"		"> {DARKRED}No matching trigger found for {RED}targetname{DARKRED}: {RED}{1}{DARKRED}!"
 	}
 
 	"Pick zone visibility"
 	{
-		"en"		"The next message you send will determine the zone's visibility? Type 'yes' or 'no' to choose."
+		"en"		"> {DARKRED}The next message you send will determine the zone's {RED}visibility{DARKRED}. Type {RED}'yes'{DARKRED} or {RED}'no'{DARKRED} to choose."
 	}
 
 	"Enter zone width"
 	{
-		"en"		"The next message you send will determine the zone's width. We recommend between 1.0 and 4.0."
+		"en"		"> {DARKRED}The next message you send will determine the zone's {RED}width{DARKRED}. We recommend between {RED}1.0{DARKRED} and {RED}4.0{DARKRED}."
 	}
 
 
 	"Give the zone a name"
 	{
-		"en"		"The next message you send will be used as the zone's name. For no name, use 'no' or 'none'."
+		"en"		"> {DARKRED}The next message you send will be used as the zone's {RED}name{DARKRED}. For no name, use {RED}'no'{DARKRED} or {RED}'none'{DARKRED}."
 	}
-
 
 }
