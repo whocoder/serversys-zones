@@ -34,6 +34,7 @@ install:
   - find build-env/addons/sourcemod/scripting/ -name "*.sp" -type f -delete
   - cp -rv $SCRIPTING/. build-env/addons/sourcemod/scripting/
   - cp -rv $INCLUDE/. build-env/addons/sourcemod/scripting/include/
+  - cp -rv $SSYS/. build-env/addons/sourcemod/scripting/serversys
 
 before_script:
   - chmod +rx build-env/addons/sourcemod/scripting/spcomp
