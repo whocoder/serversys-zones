@@ -52,8 +52,10 @@ native Zones_SetupState Sys_Zones_GetSetupState(int client);
 *
 * @param type			The string identifier for the zone's type.
 * @param zone			The entity index for the entity.
+* @param val            The unique numeric value assigned to the zone during
+*                       creation.
 */
-forward Action OnZoneCreated(const char[] type, int zone);
+forward Action OnZoneCreated(const char[] type, int zone, int val);
 
 /**
 * Called when SDKHook_StartTouch is called.
@@ -61,8 +63,10 @@ forward Action OnZoneCreated(const char[] type, int zone);
 * @param entity			The entity that touched the zone.
 * @param zone			The entity index of the zone.
 * @param type			The string identifier for the zone's type.
+* @param val            The unique numeric value assigned to the zone during
+*                       creation.
 */
-forward Action OnZoneStartTouch(int entity, int zone, const char[] type);
+forward Action OnZoneStartTouch(int entity, int zone, const char[] type, int val);
 
 /**
 * Called when SDKHook_Touch is called.
@@ -70,8 +74,10 @@ forward Action OnZoneStartTouch(int entity, int zone, const char[] type);
 * @param entity			The entity that touched the zone.
 * @param zone			The entity index of the zone.
 * @param type			The string identifier for the zone's type.
+* @param val            The unique numeric value assigned to the zone during
+*                       creation.
 */
-forward Action OnZoneTouch(int entity, int zone, const char[] type);
+forward Action OnZoneTouch(int entity, int zone, const char[] type, int val);
 
 /**
 * Called when SDKHook_EndTouch is called.
@@ -79,8 +85,10 @@ forward Action OnZoneTouch(int entity, int zone, const char[] type);
 * @param entity			The entity that touched the zone.
 * @param zone			The entity index of the zone.
 * @param type			The string identifier for the zone's type.
+* @param val            The unique numeric value assigned to the zone during
+*                       creation.
 */
-forward Action OnZoneEndTouch(int entity, int zone, const char[] type);
+forward Action OnZoneEndTouch(int entity, int zone, const char[] type, int val);
 
 public SharedPlugin __pl_serversys_zones =
 {

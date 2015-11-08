@@ -185,6 +185,7 @@ void HandleTouch(int zone, int other, Handle fwd){
 			Call_PushCell(other);
 			Call_PushCell(zone);
 			Call_PushString(g_cZones_Type[i]);
+			Call_PushCell(g_iZoneVal[i]);
 			Call_Finish();
 		}
 	}
