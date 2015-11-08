@@ -91,10 +91,25 @@ Phrases
 		"en"		"> {DARKRED}The next message you send will determine the zone's {RED}width{DARKRED}. We recommend between {RED}1.0{DARKRED} and {RED}4.0{DARKRED}."
 	}
 
+	"Add optional value"
+	{
+		"en"		"> {DARKRED}Assign your zone a {RED}value{DARKRED}. This can mean anything depending on the type of zone. If unsure, try 0 or 1."
+	}
+
 
 	"Give the zone a name"
 	{
 		"en"		"> {DARKRED}The next message you send will be used as the zone's {RED}name{DARKRED}. For no name, use {RED}'no'{DARKRED} or {RED}'none'{DARKRED}."
 	}
 
+
+	"Zone display action menu"
+	{
+		"en"		"Select action for zone"
+	}
+
+	"Delete zone"
+	{
+		"en"		"Delete zone"
+	}
 }

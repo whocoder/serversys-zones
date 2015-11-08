@@ -24,20 +24,21 @@ public void Sys_LoadZones_CB(Handle owner, Handle hndl, const char[] error, int 
 			continue;
 
 		g_iZoneID[g_iZoneCount] = SQL_FetchInt(hndl, 0);
+		g_iZoneVal[g_iZoneCount] = SQL_FetchInt(hndl, 1);
 		char temp_string32[32];
 		char temp_string64[64];
-		SQL_FetchString(hndl, 1, temp_string32, 32);
+		SQL_FetchString(hndl, 2, temp_string32, 32);
 		strcopy(g_cZones_Type[g_iZoneCount], 32, temp_string32);
-		SQL_FetchString(hndl, 2, temp_string64, 64);
+		SQL_FetchString(hndl, 3, temp_string64, 64);
 		strcopy(g_cZones_Name[g_iZoneCount], 64, temp_string64);
-		SQL_FetchString(hndl, 3, temp_string32, 32);
+		SQL_FetchString(hndl, 4, temp_string32, 32);
 		strcopy(g_cZones_Target[g_iZoneCount], 32, temp_string32);
-		g_fZones_Pos[g_iZoneCount][0][0] = SQL_FetchFloat(hndl, 4);
-		g_fZones_Pos[g_iZoneCount][0][1] = SQL_FetchFloat(hndl, 5);
-		g_fZones_Pos[g_iZoneCount][0][2] = SQL_FetchFloat(hndl, 6);
-		g_fZones_Pos[g_iZoneCount][1][0] = SQL_FetchFloat(hndl, 7);
-		g_fZones_Pos[g_iZoneCount][1][1] = SQL_FetchFloat(hndl, 8);
-		g_fZones_Pos[g_iZoneCount][1][2] = SQL_FetchFloat(hndl, 9);
+		g_fZones_Pos[g_iZoneCount][0][0] = SQL_FetchFloat(hndl, 5);
+		g_fZones_Pos[g_iZoneCount][0][1] = SQL_FetchFloat(hndl, 6);
+		g_fZones_Pos[g_iZoneCount][0][2] = SQL_FetchFloat(hndl, 7);
+		g_fZones_Pos[g_iZoneCount][1][0] = SQL_FetchFloat(hndl, 8);
+		g_fZones_Pos[g_iZoneCount][1][1] = SQL_FetchFloat(hndl, 9);
+		g_fZones_Pos[g_iZoneCount][1][2] = SQL_FetchFloat(hndl, 10);
 
 		g_iZoneCount++;
 	}

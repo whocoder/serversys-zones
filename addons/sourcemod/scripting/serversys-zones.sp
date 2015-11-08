@@ -14,16 +14,12 @@
 #define NAME_STRING_SIZE 64
 #define TYPE_STRING_SIZE 32
 
-// Select all zones
-char g_cQuery_Select[] = "SELECT id, type, name, target, posx1, posy1, posz1, posx2, posy2, posz2 FROM zones WHERE map = %d;";
-// Delete a zone
+char g_cQuery_Select[] = "SELECT id, value, type, name, target, posx1, posy1, posz1, posx2, posy2, posz2 FROM zones WHERE map = %d;";
 char g_cQuery_Remove[] = "DELETE FROM zones WHERE id = %d;";
-// Insert a zone that's hooking a pre-made map entity
-char g_cQuery_InsertMapZone[] = "INSERT INTO zones(map, type, target, name) VALUES(%d, '%s', '%s', '%s');";
-char g_cQuery_InsertMapZone_NoName[] = "INSERT INTO zones(map, type, target) VALUES(%d, '%s', '%s');";
-// Insert a zone that's from a player-made rectangle
-char g_cQuery_InsertNewZone[] = "INSERT INTO zones(map, type, posx1, posy1, posz1, posx2, posy2, posz2, name) VALUES(%d, '%s', %f, %f, %f, %f, %f, %f, '%s');";
-char g_cQuery_InsertNewZone_NoName[] = "INSERT INTO zones(map, type, posx1, posy1, posz1, posx2, posy2, posz2, name) VALUES(%d, '%s', %f, %f, %f, %f, %f, %f, '%s');";
+char g_cQuery_InsertMapZone[] = "INSERT INTO zones(map, type, value, target, name) VALUES(%d, '%s', %d, '%s', '%s');";
+char g_cQuery_InsertMapZone_NoName[] = "INSERT INTO zones(map, type, value, target) VALUES(%d, '%s', %d, '%s');";
+char g_cQuery_InsertNewZone[] = "INSERT INTO zones(map, type, value, posx1, posy1, posz1, posx2, posy2, posz2, name) VALUES(%d, '%s', %d, %f, %f, %f, %f, %f, %f, '%s');";
+char g_cQuery_InsertNewZone_NoName[] = "INSERT INTO zones(map, type, value, posx1, posy1, posz1, posx2, posy2, posz2, name) VALUES(%d, '%s', %d, %f, %f, %f, %f, %f, %f, '%s');";
 
 bool LateLoaded = false;
 bool Loading = true;
@@ -38,6 +34,7 @@ int g_iZoneCount = 0;
 char g_cZoneTypes[MAX_ZONE_TYPES][TYPE_STRING_SIZE];
 char g_cZoneTypes_Class[MAX_ZONE_TYPES][CLASS_STRING_SIZE];
 
+int g_iZoneVal[MAX_ZONES];
 int g_iZoneID[MAX_ZONES];
 int  g_iZones[MAX_ZONES];
 float g_fZones_Pos[MAX_ZONES][2][3];
@@ -54,6 +51,7 @@ bool g_bSetup_Visible[MAXPLAYERS+1];
 float g_fSetup_Width[MAXPLAYERS+1];
 float g_fSetup_Pos[MAXPLAYERS+1][2][3];
 bool g_bSetup_GridSnapping[MAXPLAYERS+1];
+int g_iSetup_Value[MAXPLAYERS+1];
 
 bool g_bSettings_FireWhenLoading = true;
 bool g_bSettings_AllowVis = false;
@@ -123,39 +121,6 @@ public void OnMapIDLoaded(int mapid){
 	LoadAttempts = 0;
 	TryLoad(mapid);
 }
-
-// public Action Command_HookTrigger(int client, int args){
-// 	if(args >= 2){
-// 		char trigger[32];
-// 		char type[32];
-// 		char name[64];
-// 		GetCmdArg(1, type, 32);
-// 		GetCmdArg(2, trigger, 32);
-//
-// 		CPrintToChat(client, "%d registered zones", g_iZoneTypeCount);
-// 		for(int i = 0; i < g_iZoneTypeCount; i++){
-// 			if(strlen(g_cZoneTypes[i]) > 0){
-// 				CPrintToChat(client, "Registered zone: %s", g_cZoneTypes[i]);
-// 			}
-// 			if(StrEqual(g_cZoneTypes[i], type, false)){
-// 				strcopy(g_cZones_Type[g_iZoneCount], 32, type);
-// 				strcopy(g_cZones_Target[g_iZoneCount], 32, trigger);
-// 				if(args >= 3){
-// 					GetCmdArg(3, name, 64);
-// 					strcopy(g_cZones_Name[g_iZoneCount], 64, name);
-// 				}
-// 				g_iZoneCount++;
-// 				CPrintToChat(client, "Added hook of type {%s} with the targetname {%s} and name {%s}", type, trigger, (args >= 3 ? name : "N/A"));
-// 				CreateTimer(0.3, CheckZones, g_iRoundIndex);
-// 				return Plugin_Handled;
-// 			}
-// 		}
-// 	}else{
-// 		CPrintToChat(client, "Need more args. <zonetype> <maptrigger> <assignedname>");
-// 	}
-//
-// 	return Plugin_Handled;
-// }
 
 public int Native_RegisterZoneType(Handle plugin, int numParams){
 	char temp_string32[32];

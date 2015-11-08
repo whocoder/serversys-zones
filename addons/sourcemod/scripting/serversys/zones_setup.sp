@@ -7,6 +7,8 @@
 #define MENU_SELECTION_ADD_TRIGGER "type_map"
 #define MENU_SELECTION_ADD_CREATE  "type_new"
 
+#define MENU_SELECTION_DELETE "dis_delete"
+
 public Action OnClientSayCommand(int client, const char[] command, const char[] args){
 	if((0 < client <= MaxClients) && IsClientInGame(client)){
 		int arglen = strlen(args);
@@ -93,6 +95,13 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 		if(g_iSetup[client] == SETUP_ADD_LISTENING_WIDTH){
 			float width = StringToFloat(args);
 			g_fSetup_Width[client] = (width == 0.0 ? g_fSettings_DefaultWidth : width);
+
+			CPrintToChat(client, "%t", "Add optional value");
+			return Plugin_Stop;
+		}
+
+		if(g_iSetup[client] == SETUP_ADD_LISTENING_VALUE){
+			g_iSetup_Value[client] = StringToInt(args);
 
 			FinishSetup(client);
 			return Plugin_Stop;
@@ -181,6 +190,25 @@ public int Menu_Zones_Display_Handler(Menu menu, MenuAction action, int param1, 
 			int picked = StringToInt(selection);
 
 			g_iSetup_Displaying[client] = picked;
+
+			Menu act = CreateMenu(Menu_Zones_Display_Action_Handler);
+			act.SetTitle("%t", "Zone display action menu");
+
+			char buffer[64];
+			Format(buffer, sizeof(buffer), "%t", "Delete zone");
+			act.AddItem(MENU_SELECTION_DELETE, buffer, ITEMDRAW_DEFAULT);
+		}
+	}
+}
+
+public int Menu_Zones_Display_Action_Handler(Menu menu, MenuAction action, int param1, int param2){
+    if(action == MenuAction_Select && (0 < param1 <= MaxClients) && IsClientInGame(param1)){
+		int client = param1;
+		char selection[32];
+		if(menu.GetItem(param2, selection, sizeof(selection))){
+			if(StrEqual(selection, MENU_SELECTION_DELETE, false)){
+				DeleteZone(Sys_GetPlayerID(client), g_iSetup_Displaying[client]);
+			}
 		}
 	}
 }
@@ -262,11 +290,11 @@ void FinishSetup(int client){
 
 	if(mapbased){
 		Format(query, sizeof(query), "%s", (hasname ? g_cQuery_InsertMapZone : g_cQuery_InsertMapZone_NoName),
-			g_iMapID, g_cSetup_Type[client], g_cSetup_Trigger[client],
+			g_iMapID, g_cSetup_Type[client], g_iSetup_Value[client], g_cSetup_Trigger[client],
 			(hasname ? g_cSetup_Name[client] : ""));
 	}else{
 		Format(query, sizeof(query), "%s", (hasname ? g_cQuery_InsertNewZone : g_cQuery_InsertNewZone_NoName),
-			g_iMapID, g_cSetup_Type[client],
+			g_iMapID, g_cSetup_Type[client], g_iSetup_Value[client],
 			g_fSetup_Pos[client][0][0], g_fSetup_Pos[client][0][1], g_fSetup_Pos[client][0][2],
 			g_fSetup_Pos[client][1][0], g_fSetup_Pos[client][1][1], g_fSetup_Pos[client][1][2],
 			(hasname ? g_cSetup_Name[client] : ""));
@@ -291,4 +319,11 @@ public void Sys_InsertZone_CB(Handle owner, Handle hndl, const char[] error, int
 		LoadAttempts = 0;
 		TryLoad(mapid);
 	}
+}
+
+
+void DeleteZone(int client, int zone){
+	char query[1024];
+	Format(query, sizeof(query), "%s", g_cQuery_Remove, g_iZoneID[zone]);
+	
 }
