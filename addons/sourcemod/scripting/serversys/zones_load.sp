@@ -152,6 +152,7 @@ void CreateZone(int i){
 		Call_StartForward(Forward_OnCreated);
 		Call_PushString(g_cZones_Type[i]);
 		Call_PushCell(entity);
+		Call_PushCell(g_iZoneVal[i]);
 		Call_Finish(res);
 
 		if(res == Plugin_Stop){
