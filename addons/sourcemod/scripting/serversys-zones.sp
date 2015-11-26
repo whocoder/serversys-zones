@@ -66,7 +66,7 @@ Handle Forward_OnEndTouch;
 #include "serversys/zones_setup.sp"
 
 public Plugin myinfo = {
-	name = "[Server-Sys] Zones",
+	name = "[Server-Sys] Zones (Beta)",
 	author = "cam",
 	description = "Zones plugin for other plugin's advanced incorporation.",
 	version = SERVERSYS_VERSION,
