@@ -119,8 +119,9 @@ void CreateZone(int i){
 	if(type == 0)
 		return;
 
+	int entity = -1;
 	bool trigger = ((strlen(g_cZoneTypes_Class[type]) < 1) || ((strlen(g_cZoneTypes_Class[type]) > 0) && StrEqual(g_cZoneTypes_Class[type], "trigger_multiple", false)));
-	if((int entity = CreateEntityByName((trigger ? "trigger_multiple" : g_cZoneTypes_Class[type]))) != -1){
+	if((entity = CreateEntityByName((trigger ? "trigger_multiple" : g_cZoneTypes_Class[type]))) != -1){
 		if(trigger){
 			char target[32];
 			FormatEx(target, sizeof(target), "sys_zones_zone%d", i);
