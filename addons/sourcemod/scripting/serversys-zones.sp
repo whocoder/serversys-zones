@@ -50,7 +50,7 @@ char g_cSetup_Name[MAXPLAYERS+1][NAME_STRING_SIZE];
 bool g_bSetup_Visible[MAXPLAYERS+1];
 float g_fSetup_Width[MAXPLAYERS+1];
 float g_fSetup_Pos[MAXPLAYERS+1][2][3];
-bool g_bSetup_GridSnapping[MAXPLAYERS+1];
+int g_iSetup_GridSnapping[MAXPLAYERS+1] = {1, ...}; // Doubles (1, 2, 4, 8, 16, 32, 64) - 0 Could theoretically work
 int g_iSetup_Value[MAXPLAYERS+1];
 
 bool g_bSettings_FireWhenLoading = true;
