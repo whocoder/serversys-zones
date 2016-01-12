@@ -8,7 +8,7 @@ env:
   global:
     - INCLUDE=addons/sourcemod/scripting/include/
     - SCRIPTING=addons/sourcemod/scripting/
-	- SSYS=addons/sourcemod/scripting/serversys
+    - SSYS=addons/sourcemod/scripting/serversys
     - PLUGINS=addons/sourcemod/plugins
     - SOURCEMOD_MAJOR=1.7
     - SOURCEMOD_MINOR=1.7.3-git5258
