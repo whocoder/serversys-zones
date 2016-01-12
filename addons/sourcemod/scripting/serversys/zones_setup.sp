@@ -289,11 +289,11 @@ void FinishSetup(int client){
 	char query[2048];
 
 	if(mapbased){
-		Format(query, sizeof(query), "%s", (hasname ? g_cQuery_InsertMapZone : g_cQuery_InsertMapZone_NoName),
+		Format(query, sizeof(query), (hasname ? g_cQuery_InsertMapZone : g_cQuery_InsertMapZone_NoName),
 			g_iMapID, g_cSetup_Type[client], g_iSetup_Value[client], g_cSetup_Trigger[client],
 			(hasname ? g_cSetup_Name[client] : ""));
 	}else{
-		Format(query, sizeof(query), "%s", (hasname ? g_cQuery_InsertNewZone : g_cQuery_InsertNewZone_NoName),
+		Format(query, sizeof(query), (hasname ? g_cQuery_InsertNewZone : g_cQuery_InsertNewZone_NoName),
 			g_iMapID, g_cSetup_Type[client], g_iSetup_Value[client],
 			g_fSetup_Pos[client][0][0], g_fSetup_Pos[client][0][1], g_fSetup_Pos[client][0][2],
 			g_fSetup_Pos[client][1][0], g_fSetup_Pos[client][1][1], g_fSetup_Pos[client][1][2],
@@ -324,6 +324,7 @@ public void Sys_InsertZone_CB(Handle owner, Handle hndl, const char[] error, int
 
 void DeleteZone(int client, int zone){
 	char query[1024];
-	Format(query, sizeof(query), "%s", g_cQuery_Remove, g_iZoneID[zone]);
-	
+	Format(query, sizeof(query), g_cQuery_Remove, g_iZoneID[zone]);
+// not done
+// to do
 }

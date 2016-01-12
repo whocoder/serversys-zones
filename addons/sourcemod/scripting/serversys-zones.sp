@@ -56,7 +56,7 @@ int g_iSetup_Value[MAXPLAYERS+1];
 bool g_bSettings_FireWhenLoading = true;
 bool g_bSettings_AllowVis = false;
 float g_fSettings_DefaultWidth = 2.0;
-char g_cCommandZones[128];
+char g_cCommand_Zones[128];
 
 Handle Forward_OnCreated;
 Handle Forward_OnStartTouch;
@@ -76,7 +76,7 @@ public Plugin myinfo = {
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max){
 	RegPluginLibrary("serversys-zones");
-	
+
 	CreateNative("Sys_Zones_RegisterZoneType", Native_RegisterZoneType);
 	CreateNative("Sys_Zones_GetSetupState", Native_GetSetupState);
 
