@@ -1,8 +1,8 @@
 sudo: false
 
 addons:
-    apt_packages:
-        - lib32stdc++6
+  apt_packages:
+    - lib32stdc++6
 
 env:
   global:
