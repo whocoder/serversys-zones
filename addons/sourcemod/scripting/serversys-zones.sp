@@ -76,7 +76,7 @@ public Plugin myinfo = {
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max){
 	RegPluginLibrary("serversys-zones");
-
+	
 	CreateNative("Sys_Zones_RegisterZoneType", Native_RegisterZoneType);
 	CreateNative("Sys_Zones_GetSetupState", Native_GetSetupState);
 
