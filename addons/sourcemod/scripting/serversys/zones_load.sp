@@ -84,16 +84,19 @@ void FindZone(int i){
 		GetEntPropString(entity, Prop_Data, "m_iName", targetname, sizeof(targetname));
 
 		if(StrEqual(targetname, g_cZones_Target[i], false)){
-			PrintToServer("Hooking zone of targetname %s and type %s.", g_cZones_Target[i], g_cZones_Type[i]);
+			PrintToServer("Hooking entity with targetname %s (type: %s)", g_cZones_Target[i], g_cZones_Type[i]);
+
 			Action res = Plugin_Continue;
 			Call_StartForward(Forward_OnCreated);
 			Call_PushString(g_cZones_Type[i]);
 			Call_PushCell(entity);
+			Call_PushCell(i);
+			Call_PushCell(g_iZoneVal[i]);
 			Call_Finish(res);
 
-			if(res == Plugin_Stop){
+			if(res == Plugin_Stop)
 				g_iZones[i] = 0;
-			}else{
+			else{
 				g_iZones[i] = entity;
 				if(res != Plugin_Handled){
 					SDKHook(entity, SDKHook_StartTouch, Hook_StartTouch);
@@ -117,53 +120,58 @@ void CreateZone(int i){
 		return;
 
 	bool trigger = ((strlen(g_cZoneTypes_Class[type]) < 1) || ((strlen(g_cZoneTypes_Class[type]) > 0) && StrEqual(g_cZoneTypes_Class[type], "trigger_multiple", false)));
-
-	int entity = CreateEntityByName((trigger ? "trigger_multiple" : g_cZoneTypes_Class[type]));
-	if(entity != -1){
+	if(int entity = CreateEntityByName((trigger ? "trigger_multiple" : g_cZoneTypes_Class[type])) != -1){
 		if(trigger){
+			char target[32];
+			FormatEx(target, sizeof(target), "sys_zones_zone%d", i);
+
 			SetEntityModel(entity, "models/error.mdl");
-			DispatchKeyValue(entity, "spawnflags", "1");
+			DispatchKeyValue(entity, "spawnflags", "257");
 			DispatchKeyValue(entity, "StartDisabled", "0");
+			DispatchKeyValue(entity, "targetname", target);
+			DispatchKeyValue(entity, "wait", "0");
 			SetEntProp(entity, Prop_Send, "m_nSolidType", 2);
 		}
 
-		DispatchSpawn(entity);
-		ActivateEntity(entity);
+		if(DispatchSpawn(entity)){
+			ActivateEntity(entity);
 
-		float pos[3];
-		float bounds[2][3];
+			float pos[3];
+			float bounds[2][3];
 
-		for(int e = 0; e < 3; e++){
-			if(g_fZones_Pos[i][0][e] != 0.0 && g_fZones_Pos[i][1][e] != 0.0){
-				pos[e] = ((g_fZones_Pos[i][0][e] + g_fZones_Pos[i][1][e]) / 2);
+			for(int e = 0; e < 3; e++){
+				if(g_fZones_Pos[i][0][e] != 0.0 && g_fZones_Pos[i][1][e] != 0.0){
+					pos[e] = ((g_fZones_Pos[i][0][e] + g_fZones_Pos[i][1][e]) / 2);
+				}
+
+				float length = FloatAbs(g_fZones_Pos[i][0][e] - g_fZones_Pos[i][1][e]);
+				bounds[0][e] = -(length / 2);
+				bounds[1][e] = length / 2;
 			}
 
-			float length = FloatAbs(g_fZones_Pos[i][0][e] - g_fZones_Pos[i][1][e]);
-			bounds[0][e] = -(length / 2);
-			bounds[1][e] = length / 2;
-		}
-
-		TeleportEntity(entity, pos, NULL_VECTOR, NULL_VECTOR);
-		SetEntPropVector(entity, Prop_Send, "m_vecMins", bounds[0]);
-		SetEntPropVector(entity, Prop_Send, "m_vecMaxs", bounds[1]);
+			TeleportEntity(entity, pos, NULL_VECTOR, NULL_VECTOR);
+			SetEntPropVector(entity, Prop_Send, "m_vecMins", bounds[0]);
+			SetEntPropVector(entity, Prop_Send, "m_vecMaxs", bounds[1]);
 
 
-		Action res = Plugin_Continue;
-		Call_StartForward(Forward_OnCreated);
-		Call_PushString(g_cZones_Type[i]);
-		Call_PushCell(entity);
-		Call_PushCell(g_iZoneVal[i]);
-		Call_Finish(res);
+			Action res = Plugin_Continue;
+			Call_StartForward(Forward_OnCreated);
+			Call_PushString(g_cZones_Type[i]);
+			Call_PushCell(entity);
+			Call_PushCell(i);
+			Call_PushCell(g_iZoneVal[i]);
+			Call_Finish(res);
 
-		if(res == Plugin_Stop){
-			g_iZones[i] = 0;
-			AcceptEntityInput(entity, "Kill");
-		}else{
-			g_iZones[i] = entity;
-			if(res != Plugin_Handled){
-				SDKHook(entity, SDKHook_StartTouch, Hook_StartTouch);
-				SDKHook(entity, SDKHook_EndTouch, Hook_EndTouch);
-				SDKHook(entity, SDKHook_Touch, Hook_Touch);
+			if(res == Plugin_Stop){
+				g_iZones[i] = 0;
+				AcceptEntityInput(entity, "Kill");
+			}else{
+				g_iZones[i] = entity;
+				if(res != Plugin_Handled){
+					SDKHook(entity, SDKHook_StartTouch, Hook_StartTouch);
+					SDKHook(entity, SDKHook_EndTouch, Hook_EndTouch);
+					SDKHook(entity, SDKHook_Touch, Hook_Touch);
+				}
 			}
 		}
 	}
@@ -173,7 +181,7 @@ void CreateZone(int i){
 
 void HandleTouch(int zone, int other, Handle fwd){
 	if((fwd == INVALID_HANDLE) || (other == 0) || (zone == 0)){
-		PrintToServer("[server-sys] zones :: HandleTouch recieved some bullshit.");
+		//PrintToServer("[server-sys] zones :: HandleTouch recieved some bullshit.");
 		return;
 	}
 
@@ -185,6 +193,7 @@ void HandleTouch(int zone, int other, Handle fwd){
 			Call_StartForward(fwd);
 			Call_PushCell(other);
 			Call_PushCell(zone);
+			Call_PushCell(i);
 			Call_PushString(g_cZones_Type[i]);
 			Call_PushCell(g_iZoneVal[i]);
 			Call_Finish();

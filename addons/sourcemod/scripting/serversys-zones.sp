@@ -56,6 +56,7 @@ int g_iSetup_Value[MAXPLAYERS+1];
 bool g_bSettings_FireWhenLoading = true;
 bool g_bSettings_AllowVis = false;
 float g_fSettings_DefaultWidth = 2.0;
+char g_cCommandZones[128];
 
 Handle Forward_OnCreated;
 Handle Forward_OnStartTouch;
@@ -90,12 +91,38 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 
 public void OnPluginStart(){
 	LoadTranslations("serversys.zones.phrases");
+	LoadConfig();
 
-	HookEventEx("round_start", Event_RoundStart, EventHookMode_Post);
+	if(GetEngineVersion() == Engine_CSGO)
+		HookEventEx("round_prestart", Event_RoundStart, EventHookMode_Post); // Sometimes round_start isn't called? This also makes zones available during warmup.
+	else
+		HookEventEx("round_start", Event_RoundStart, EventHookMode_Post);
 }
 
-void LoadConfig(){
+void LoadConfig(char[] map_name = ""){
+	KeyValues kv = CreateKeyValues("Server-Sys Zones");
+	char Config_Path[PLATFORM_MAX_PATH];
 
+	if(Sys_InMap() && (strlen(map_name) > 2) && Sys_UseMapConfigs()){
+		BuildPath(Path_SM, Config_Path, sizeof(Config_Path), "configs/serversys/maps/%s/zones.cfg", map_name);
+
+		if(!(FileExists(Config_Path)) || !(kv.ImportFromFile(Config_Path)))
+			BuildPath(Path_SM, Config_Path, sizeof(Config_Path), "configs/serversys/zones.cfg");
+	}else{
+		BuildPath(Path_SM, Config_Path, sizeof(Config_Path), "configs/serversys/zones.cfg");
+	}
+
+	if(!(FileExists(Config_Path)) || !(kv.ImportFromFile(Config_Path))){
+		delete kv;
+		SetFailState("[serversys] zones :: Cannot read from configuration file: %s", Config_Path);
+	}
+
+	kv.GetString("setup_command", g_cCommand_Zones, sizeof(g_cCommand_Zones), "!zones /zones .zones");
+	g_bSettings_FireWhenLoading = view_as<bool>(kv.GetNum("fire_when_loading", 0));
+	g_bSettings_AllowVis = view_as<bool>(kv.GetNum("allow_visibility", 1));
+	g_fSettings_DefaultWidth = kv.GetFloat("default_width", 2.0);
+
+	delete kv;
 }
 
 public void OnAllPluginsLoaded(){
@@ -107,7 +134,7 @@ public void OnAllPluginsLoaded(){
 		}
 	}
 
-	Sys_RegisterChatCommand("!zones /zones .zones", Command_Zones);
+	Sys_RegisterChatCommand(g_cCommand_Zones, Command_Zones);
 }
 
 public void OnMapStart(){
