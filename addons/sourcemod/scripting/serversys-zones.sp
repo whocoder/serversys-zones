@@ -80,10 +80,10 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Sys_Zones_RegisterZoneType", Native_RegisterZoneType);
 	CreateNative("Sys_Zones_GetSetupState", Native_GetSetupState);
 
-	Forward_OnStartTouch = CreateGlobalForward("OnZoneStartTouch", ET_Event, Param_Cell, Param_Cell, Param_String);
-	Forward_OnTouch = CreateGlobalForward("OnZoneTouch", ET_Event, Param_Cell, Param_Cell, Param_String);
-	Forward_OnEndTouch = CreateGlobalForward("OnZoneEndTouch", ET_Event, Param_Cell, Param_Cell, Param_String);
-	Forward_OnCreated = CreateGlobalForward("OnZoneCreated", ET_Event, Param_String, Param_Cell);
+	Forward_OnStartTouch = CreateGlobalForward("OnZoneStartTouch", ET_Event, Param_Cell, Param_Cell, Param_Cell, Param_String, Param_Cell);
+	Forward_OnTouch = CreateGlobalForward("OnZoneTouch", ET_Event, Param_Cell, Param_Cell, Param_Cell, Param_String, Param_Cell);
+	Forward_OnEndTouch = CreateGlobalForward("OnZoneEndTouch", ET_Event, Param_Cell, Param_Cell, Param_Cell, Param_String, Param_Cell);
+	Forward_OnCreated = CreateGlobalForward("OnZoneCreated", ET_Event, Param_String, Param_Cell, Param_Cell, Param_Cell);
 
 	LateLoaded = late;
 	return APLRes_Success;
