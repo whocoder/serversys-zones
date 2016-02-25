@@ -113,7 +113,7 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 
 public void Command_Zones(int client, const char[] cmd, const char[] args){
 	if((0 < client <= MaxClients) && IsClientInGame(client)){
-		CPrintToChat(client, "%t", "You may cancel any time");
+		CPrintToChat(client, "%t", "You may cancel at any time");
 
 		g_iSetup[client] = SETUP_MAIN;
 		Menu Menu_Zones_Home = CreateMenu(Menu_Zones_Home_Handler);
