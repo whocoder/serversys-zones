@@ -150,10 +150,9 @@ public int Menu_Zones_Home_Handler(Menu menu, MenuAction action, int param1, int
 						}
 					}
 
-					Sys_KillHandle(menu);
+					delete menu;
 					add_zone.Display(client, MENU_TIME_FOREVER);
-				}
-				if(StrEqual(selection, MENU_SELECTION_DIS)){
+				}else if(StrEqual(selection, MENU_SELECTION_DIS)){
 					g_iSetup[client] = SETUP_DIS_SELECT_ZONE;
 
 					Menu dis_zone = CreateMenu(Menu_Zones_Display_Handler);
@@ -169,16 +168,16 @@ public int Menu_Zones_Home_Handler(Menu menu, MenuAction action, int param1, int
 						}
 					}
 
-					Sys_KillHandle(menu);
+					delete menu;
 					dis_zone.Display(client, MENU_TIME_FOREVER);
 				}
 			}
 		}else{
-			Sys_KillHandle(menu);
+			delete menu;
 			g_iSetup[client] = SETUP_NONE;
 		}
 	}else
-		Sys_KillHandle(menu);
+		delete menu;
 }
 
 public int Menu_Zones_Display_Handler(Menu menu, MenuAction action, int param1, int param2){
@@ -198,6 +197,8 @@ public int Menu_Zones_Display_Handler(Menu menu, MenuAction action, int param1, 
 			Format(buffer, sizeof(buffer), "%t", "Delete zone");
 			act.AddItem(MENU_SELECTION_DELETE, buffer, ITEMDRAW_DEFAULT);
 		}
+
+		delete menu;
 	}
 }
 
