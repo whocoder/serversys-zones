@@ -236,20 +236,20 @@ public int Menu_Zones_Add_Handler(Menu menu, MenuAction action, int param1, int 
 						Format(buffer, sizeof(buffer), "%t", "Create new custom zone");
 						select_menu.AddItem(MENU_SELECTION_ADD_CREATE, buffer, ITEMDRAW_DEFAULT);
 
-						Sys_KillHandle(menu);
+						delete menu;
 						select_menu.Display(client, MENU_TIME_FOREVER);
 					}
 				}
 			}else{
-				Sys_KillHandle(menu);
+				delete menu;
 				g_iSetup[client] = SETUP_NONE;
 			}
 		}else{
-			Sys_KillHandle(menu);
+			delete menu;
 			g_iSetup[client] = SETUP_NONE;
 		}
 	}else
-		Sys_KillHandle(menu);
+		delete menu;
 }
 
 public int Menu_Zones_Add_Select_Handler(Menu menu, MenuAction action, int param1, int param2){
@@ -268,6 +268,8 @@ public int Menu_Zones_Add_Select_Handler(Menu menu, MenuAction action, int param
 				// Needs lot more work
 			}
 		}
+
+		delete menu;
 	}
 }
 
